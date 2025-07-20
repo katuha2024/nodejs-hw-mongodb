@@ -8,6 +8,8 @@ import {
 import createError from 'http-errors';
 
 export const handleGetAllContacts = async (req, res) => {
+  const userId = req.user._id;
+
   const page = parseInt(req.query.page) || 1;
   const perPage = parseInt(req.query.perPage) || 10;
   const sortBy = req.query.sortBy || 'name';
@@ -16,6 +18,7 @@ export const handleGetAllContacts = async (req, res) => {
   const isFavourite = req.query.isFavourite;
 
   const result = await getAllContacts(
+    userId,
     page,
     perPage,
     sortBy,
@@ -32,8 +35,10 @@ export const handleGetAllContacts = async (req, res) => {
 };
 
 export const getContactById = async (req, res) => {
+  const userId = req.user._id;
   const { contactId } = req.params;
-  const contact = await findContactById(contactId);
+
+  const contact = await findContactById(contactId, userId);
 
   if (!contact) {
     throw createError(404, 'Contact not found');
@@ -47,7 +52,8 @@ export const getContactById = async (req, res) => {
 };
 
 export const createContact = async (req, res) => {
-  const contact = await addContact(req.body);
+  const userId = req.user._id;
+  const contact = await addContact({ ...req.body, userId });
 
   res.status(201).json({
     status: 201,
@@ -57,9 +63,10 @@ export const createContact = async (req, res) => {
 };
 
 export const updateContact = async (req, res) => {
+  const userId = req.user._id;
   const { contactId } = req.params;
 
-  const updatedContact = await updateContactById(contactId, req.body);
+  const updatedContact = await updateContactById(contactId, req.body, userId);
 
   if (!updatedContact) {
     throw createError(404, 'Contact not found');
@@ -71,13 +78,16 @@ export const updateContact = async (req, res) => {
     data: updatedContact,
   });
 };
+
 export const deleteContact = async (req, res) => {
+  const userId = req.user._id;
   const { contactId } = req.params;
-  const contact = await deleteContactById(contactId);
+
+  const contact = await deleteContactById(contactId, userId);
 
   if (!contact) {
     throw createError(404, 'Contact not found');
   }
 
-  res.status(204).send(); 
+  res.status(204).send();
 };
