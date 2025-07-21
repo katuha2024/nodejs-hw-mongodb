@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken';
 import createHttpError from 'http-errors';
-import User from '../models/userModel.js';
+import Session from '../models/sessionModel.js';
 
 export const authenticate = async (req, res, next) => {
   try {
@@ -21,14 +21,13 @@ export const authenticate = async (req, res, next) => {
       throw createHttpError(401, 'Invalid access token');
     }
 
-    const user = await User.findById(decoded.id);
-    if (!user || user.sessionId !== decoded.sessionId) {
-      throw createHttpError(401, 'Invalid session');
+    const session = await Session.findOne({ accessToken: token });
+    if (!session) {
+      throw createHttpError(401, 'Access token not found in session');
     }
 
     req.user = {
-      id: user._id,
-      sessionId: user.sessionId,
+      id: decoded.id,
     };
 
     next();
