@@ -22,13 +22,11 @@ export const registerUser = async ({ name, email, password }) => {
 
 export const loginUser = async ({ email, password }) => {
   const user = await User.findOne({ email });
-
   if (!user) {
     throw createError(401, 'Invalid email or password');
   }
 
   const isMatch = await bcrypt.compare(password, user.password);
-
   if (!isMatch) {
     throw createError(401, 'Invalid email or password');
   }
@@ -50,7 +48,11 @@ export const loginUser = async ({ email, password }) => {
     refreshTokenValidUntil,
   });
 
-  return { accessToken, refreshToken, sessionId: session._id };
+  return {
+    accessToken,
+    refreshToken,
+    sessionId: session._id.toString(), 
+  };
 };
 
 export const refreshSession = async (oldRefreshToken) => {
@@ -66,7 +68,6 @@ export const refreshSession = async (oldRefreshToken) => {
   }
 
   const existingSession = await Session.findOne({ refreshToken: oldRefreshToken });
-
   if (!existingSession) {
     throw createError(403, 'Session not found or expired');
   }
@@ -91,18 +92,16 @@ export const refreshSession = async (oldRefreshToken) => {
   return { accessToken, newRefreshToken: refreshToken };
 };
 
-export const logoutUser = async ({ sessionId, accessToken }) => {
-  if (!sessionId || !accessToken) {
-    throw createError(400, 'Session ID and access token are required');
+export const logoutUser = async (sessionId) => {
+  if (!sessionId) {
+    throw createError(400, 'Session ID is required');
   }
 
-  const session = await Session.findOne({ _id: sessionId, accessToken });
+  const session = await Session.findById(sessionId);
 
   if (!session) {
-    throw createError(401, 'Invalid session or token');
+    throw createError(401, 'Session not found or already logged out');
   }
 
   await Session.findByIdAndDelete(sessionId);
-
-  return;
 };
