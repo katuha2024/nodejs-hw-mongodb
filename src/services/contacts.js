@@ -12,7 +12,7 @@ export const getAllContacts = async (
   const skip = (page - 1) * perPage;
   const sortOptions = { [sortBy]: sortOrder === 'desc' ? -1 : 1 };
 
-  const filter = {  userId }; 
+  const filter = { userId }; 
   if (type) {
     filter.contactType = type;
   }
