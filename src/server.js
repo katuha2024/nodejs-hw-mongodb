@@ -18,7 +18,7 @@ export const setupServer = () => {
   app.use(cookieParser());
 
   app.use('/auth', authRouter);     
-  app.use('/contacts', contactsRouter);
+  app.use('/:contactId', contactsRouter);
 
   app.use(notFoundHandler);  
   app.use(errorHandler);     
