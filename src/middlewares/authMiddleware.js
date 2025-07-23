@@ -18,7 +18,7 @@ export const authMiddleware = async (req, res, next) => {
     }
 
     req.user = {
-      id: user._id,
+      _id: user._id,
       sessionId: user.sessionId,
     };
 
