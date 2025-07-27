@@ -1,7 +1,12 @@
-import { registerUser } from '../services/auth.js';
-import { loginUser } from '../services/auth.js';
-import { refreshSession } from '../services/auth.js';
-import { logoutUser } from '../services/auth.js';
+import {
+  registerUser,
+  loginUser,
+  refreshSession,
+  logoutUser,
+} from '../services/auth.js';
+import sendResetEmailService from '../services/sendResetEmail.js';
+import { resetPassword } from '../services/resetPassword.js';
+import createError from 'http-errors';
 
 export const register = async (req, res) => {
   const newUser = await registerUser(req.body);
@@ -79,4 +84,37 @@ export const refresh = async (req, res, next) => {
   } catch (error) {
     next(error);
   }
+};
+
+export const sendResetEmail = async (req, res) => {
+  const { email } = req.body;
+
+  try {
+    await sendResetEmailService(email);
+
+    res.status(200).json({
+      status: 200,
+      message: "Reset password email has been successfully sent.",
+      data: {},
+    });
+  } catch (error) 
+  {
+  console.error(error);
+    if (error.status) throw error;
+
+  
+    throw createError(500, "Failed to send the email, please try again later.");
+  }
+};
+
+export const resetPasswordController = async (req, res) => {
+  const { token, password } = req.body;
+
+  await resetPassword({ token, password });
+
+  res.status(200).json({
+    status: 200,
+    message: 'Password has been successfully reset.',
+    data: {},
+  });
 };
