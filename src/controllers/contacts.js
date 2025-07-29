@@ -6,6 +6,7 @@ import {
   deleteContactById,
 } from '../services/contacts.js';
 import createError from 'http-errors';
+import { uploadToCloudinary } from '../helpers/uploadToCloudinary.js';
 
 export const handleGetAllContacts = async (req, res) => {
   const userId = req.user._id;
@@ -53,7 +54,13 @@ export const getContactById = async (req, res) => {
 
 export const createContact = async (req, res) => {
   const userId = req.user._id;
-  const contact = await addContact({ ...req.body, userId });
+  let photoUrl = '';
+
+  if (req.file) {
+    photoUrl = await uploadToCloudinary(req.file.buffer, req.file.originalname);
+  }
+
+  const contact = await addContact({ ...req.body, userId, photo: photoUrl });
 
   res.status(201).json({
     status: 201,
