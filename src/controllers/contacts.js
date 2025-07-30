@@ -98,3 +98,26 @@ export const deleteContact = async (req, res) => {
 
   res.status(204).send();
 };
+
+export const updateContactPhoto = async (req, res) => {
+  const userId = req.user._id;
+  const { contactId } = req.params;
+
+  if (!req.file) {
+    throw createError(400, 'No file uploaded');
+  }
+
+  const photoUrl = await uploadToCloudinary(req.file.buffer, req.file.originalname);
+
+  const updatedContact = await updateContactById(contactId, { photo: photoUrl }, userId);
+
+  if (!updatedContact) {
+    throw createError(404, 'Contact not found');
+  }
+
+  res.status(200).json({
+    status: 200,
+    message: 'Photo updated successfully',
+    data: updatedContact,
+  });
+};
