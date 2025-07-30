@@ -2,6 +2,11 @@ import { Schema, model } from 'mongoose';
 
 const contactSchema = new Schema(
   {
+    photo: {
+  type: String,
+  default: '',
+},
+
     name: {
       type: String,
       required: true,
@@ -24,6 +29,7 @@ const contactSchema = new Schema(
     },
   },
   { timestamps: true }
+
 );
 
 export const Contact = model('Contact', contactSchema);

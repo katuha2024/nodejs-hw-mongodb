@@ -18,6 +18,7 @@ export const resetPassword = async ({ token, password }) => {
   
   const user = await User.findOne({ email: payload.email });
   if (!user) {
+    
     throw createHttpError(404, 'User not found!');
   }
 
