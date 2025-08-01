@@ -73,7 +73,14 @@ export const updateContact = async (req, res) => {
   const userId = req.user._id;
   const { contactId } = req.params;
 
-  const updatedContact = await updateContactById(contactId, req.body, userId);
+  let updatedData = { ...req.body };
+
+  if (req.file) {
+    const photoUrl = await uploadToCloudinary(req.file.buffer, req.file.originalname);
+    updatedData.photo = photoUrl;
+  }
+
+  const updatedContact = await updateContactById(contactId, updatedData, userId);
 
   if (!updatedContact) {
     throw createError(404, 'Contact not found');
