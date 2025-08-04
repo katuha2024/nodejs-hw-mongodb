@@ -5,7 +5,6 @@ import {
   createContact,
   updateContact,
   deleteContact,
-  updateContactPhoto,
 } from '../controllers/contacts.js';
 import { ctrlWrapper } from '../utils/ctrlWrapper.js';
 import { validateBody } from '../middlewares/validateBody.js';
@@ -16,24 +15,19 @@ import { upload } from '../middlewares/uploadMiddleware.js';
 
 const router = express.Router();
 
-
 router.use(authenticate);
 
 
 router.get('/', ctrlWrapper(handleGetAllContacts));
 
+
 router.get('/:contactId', isValidId, ctrlWrapper(getContactById));
 
-router.post( '/',upload.single('photo'), validateBody(createContactSchema),ctrlWrapper(createContact)
-);
+
+router.post( '/', upload.single('photo'),validateBody(createContactSchema),ctrlWrapper(createContact));
 
 
-router.patch('/:contactId',isValidId,validateBody(updateContactSchema),ctrlWrapper(updateContact)
-);
-
-router.patch('/:contactId/photo',isValidId,upload.single('photo'),ctrlWrapper(updateContactPhoto)
-);
-
+router.patch('/:contactId/photo',isValidId,upload.single('photo'),validateBody(updateContactSchema),ctrlWrapper(updateContact));
 
 router.delete('/:contactId', isValidId, ctrlWrapper(deleteContact));
 
