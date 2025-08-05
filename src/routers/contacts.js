@@ -27,7 +27,7 @@ router.get('/:contactId', isValidId, ctrlWrapper(getContactById));
 router.post( '/', upload.single('photo'),validateBody(createContactSchema),ctrlWrapper(createContact));
 
 
-router.patch('/:contactId/photo',isValidId,upload.single('photo'),ctrlWrapper(updateContact));
+router.patch('/:contactId',isValidId,upload.single('photo'),ctrlWrapper(updateContact));
 
 router.delete('/:contactId', isValidId, ctrlWrapper(deleteContact));
 
