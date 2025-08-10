@@ -1,0 +1,12 @@
+summary: User logout
+operationId: logoutUser
+tags:
+  - Auth
+description: Logs out the current user by invalidating their JWT token.
+security:
+  - bearerAuth: []
+responses:
+  '204':
+    description: Logout successful, no content returned
+  '401':
+    description: Unauthorized — missing or invalid token

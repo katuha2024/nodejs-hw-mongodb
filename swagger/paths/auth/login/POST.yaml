@@ -1,0 +1,37 @@
+summary: User login
+operationId: loginUser
+tags:
+  - Auth
+description: Authenticates a user and returns a JWT token.
+security:
+  - bearerAuth: []
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        type: object
+        required:
+          - email
+          - password
+        properties:
+          email:
+            type: string
+            format: email
+            example: user@example.com
+          password:
+            type: string
+            example: mysecurepassword
+responses:
+  '200':
+    description: Login successful
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            token:
+              type: string
+              example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+  '401':
+    description: Invalid email or password

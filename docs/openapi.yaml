@@ -1,0 +1,46 @@
+openapi: 3.1.0
+info:
+  version: 1.0.0
+  title: Contact Book API
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  description: >
+    <опис вашого додатку>
+tags:
+  - name: Contacts
+    description: Operations related to contacts
+servers:
+  - url: http://127.0.0.1:3000
+    description: Local development server
+  - url: https://nodejs-hw-mongodb-10-j10e.onrender.com
+    description: Production server
+
+paths:
+  /contacts:
+    get:
+      $ref: ../swagger/paths/contacts/GET.yaml
+    post:
+      $ref: ../swagger/paths/contacts/POST.yaml
+
+  /contacts/{contactId}:
+    get:
+      $ref: ../swagger/paths/contacts/{contactId}/GET.yaml
+    patch:
+      $ref: ../swagger/paths/contacts/{contactId}/PATCH.yaml
+    delete:
+      $ref: ../swagger/paths/contacts/{contactId}/DELETE.yaml
+
+  /auth/login:
+    post:
+      $ref: ../swagger/paths/auth/login/POST.yaml
+
+  /auth/logout:
+    post:
+      $ref: ../swagger/paths/auth/logout/POST.yaml
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
