@@ -13,7 +13,7 @@ tags:
 servers:
   - url: http://127.0.0.1:3000
     description: Local development server
-  - url: https://nodejs-hw-mongodb-10-j10e.onrender.com
+  - url: https://nodejs-hw-mongodb-11-drmz.onrender.com
     description: Production server
 
 paths:
