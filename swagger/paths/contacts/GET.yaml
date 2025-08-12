@@ -8,28 +8,24 @@ security:
 parameters:
   - name: page
     in: query
-    required: false
     schema:
       type: integer
       default: 1
     description: Page number for pagination.
   - name: perPage
     in: query
-    required: false
     schema:
       type: integer
       default: 10
     description: Number of contacts per page.
   - name: sortBy
     in: query
-    required: false
     schema:
       type: string
       default: name
     description: Field to sort by.
   - name: sortOrder
     in: query
-    required: false
     schema:
       type: string
       enum: [asc, desc]
@@ -37,13 +33,11 @@ parameters:
     description: Sort order.
   - name: type
     in: query
-    required: false
     schema:
       type: string
     description: Filter contacts by type.
   - name: isFavourite
     in: query
-    required: false
     schema:
       type: boolean
     description: Filter contacts by favourite status.
@@ -54,6 +48,10 @@ responses:
       application/json:
         schema:
           type: object
+          required:
+            - status
+            - message
+            - data
           properties:
             status:
               type: integer
@@ -62,15 +60,48 @@ responses:
               type: string
               example: Successfully found contacts!
             data:
-              type: array
-              items:
-                $ref: ../../components/schemas/Contact.yaml
+              type: object
+              required:
+                - data
+                - page
+                - perPage
+                - totalItems
+                - totalPages
+                - hasPreviousPage
+                - hasNextPage
+              properties:
+                data:
+                  type: array
+                  items:
+                    $ref: ../../components/schemas/Contact.yaml
+                page:
+                  type: integer
+                  example: 1
+                perPage:
+                  type: integer
+                  example: 10
+                totalItems:
+                  type: integer
+                  example: 42
+                totalPages:
+                  type: integer
+                  example: 5
+                hasPreviousPage:
+                  type: boolean
+                  example: false
+                hasNextPage:
+                  type: boolean
+                  example: true
   '401':
     description: Unauthorized - Authentication required
     content:
       application/json:
         schema:
           type: object
+          required:
+            - status
+            - message
+            - data
           properties:
             status:
               type: integer
@@ -78,3 +109,6 @@ responses:
             message:
               type: string
               example: Unauthorized
+            data:
+              type: object
+              example: {}
