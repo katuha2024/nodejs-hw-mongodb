@@ -11,7 +11,7 @@
   },
   "servers": [
     {
-      "url": "https://nodejs-hw-mongodb-11-drmz.onrender.com",
+      "url": "https://nodejs-hw-mongodb-13-f9h9.onrender.com",
       "description": "Production server"
     },
     {
@@ -355,13 +355,57 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Contact"
+                  "type": "object",
+                  "required": [
+                    "status",
+                    "message",
+                    "data"
+                  ],
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "example": 200
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Successfully found contact with id 646dbf9e8f1a2c0012345678!"
+                    },
+                    "data": {
+                      "$ref": "#/components/schemas/Contact"
+                    }
+                  }
                 }
               }
             }
           },
           "404": {
-            "description": "Contact not found"
+            "description": "Contact not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "status",
+                    "message",
+                    "data"
+                  ],
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "example": 404
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Contact not found"
+                    },
+                    "data": {
+                      "type": "object",
+                      "example": "Contact not found"
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       },
@@ -369,9 +413,9 @@
         "tags": [
           "Contacts"
         ],
-        "summary": "Update an existing contact",
-        "operationId": "updateContact",
-        "description": "Updates contact fields. At least one field must be provided.",
+        "summary": "Update contact photo",
+        "operationId": "updateContactPhoto",
+        "description": "Updates the photo of a contact.",
         "security": [
           {
             "bearerAuth": []
@@ -394,38 +438,14 @@
             "multipart/form-data": {
               "schema": {
                 "type": "object",
+                "required": [
+                  "photo"
+                ],
                 "properties": {
-                  "name": {
+                  "photo": {
                     "type": "string",
-                    "minLength": 3,
-                    "maxLength": 20,
-                    "example": "Jane Doe"
-                  },
-                  "phoneNumber": {
-                    "type": "string",
-                    "minLength": 3,
-                    "maxLength": 20,
-                    "example": "+987654321"
-                  },
-                  "email": {
-                    "type": "string",
-                    "format": "email",
-                    "minLength": 3,
-                    "maxLength": 20,
-                    "example": "jane@example.com"
-                  },
-                  "isFavourite": {
-                    "type": "boolean",
-                    "example": true
-                  },
-                  "contactType": {
-                    "type": "string",
-                    "enum": [
-                      "personal",
-                      "home",
-                      "work"
-                    ],
-                    "example": "personal"
+                    "format": "binary",
+                    "description": "Contact photo file"
                   }
                 }
               }
@@ -451,7 +471,7 @@
                     },
                     "message": {
                       "type": "string",
-                      "example": "Photo updated successfully"
+                      "example": "Successfully patched a contact"
                     },
                     "data": {
                       "$ref": "#/components/schemas/Contact"
@@ -545,11 +565,63 @@
           }
         ],
         "responses": {
-          "204": {
-            "description": "Contact deleted successfully (no content)"
+          "200": {
+            "description": "Contact deleted successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "status",
+                    "message",
+                    "data"
+                  ],
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "example": 200
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Contact deleted successfully"
+                    },
+                    "data": {
+                      "type": "object",
+                      "example": {}
+                    }
+                  }
+                }
+              }
+            }
           },
           "404": {
-            "description": "Contact not found"
+            "description": "Contact not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "status",
+                    "message",
+                    "data"
+                  ],
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "example": 404
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Contact not found"
+                    },
+                    "data": {
+                      "type": "object",
+                      "example": {}
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       }

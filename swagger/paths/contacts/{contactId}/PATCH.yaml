@@ -39,7 +39,7 @@ responses:
               example: 200
             message:
               type: string
-              example: Photo updated successfully
+              example: Successfully patched a contact
             data:
               $ref: '../../../components/schemas/Contact.yaml'
 
