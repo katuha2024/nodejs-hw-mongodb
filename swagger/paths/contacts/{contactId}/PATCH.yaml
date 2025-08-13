@@ -13,7 +13,6 @@ parameters:
       type: string
     description: Contact ID
 requestBody:
-  required: true
   content:
     multipart/form-data:
       schema:
