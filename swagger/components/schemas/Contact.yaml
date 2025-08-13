@@ -2,14 +2,31 @@ type: object
 properties:
   _id:
     type: string
+    example: "64dcbf9e8f1a2c0012345678"
   name:
     type: string
+    example: "John Doe"
   email:
     type: string
+    format: email
+    example: "john@example.com"
   phoneNumber:
     type: string
+    example: "+123456789"
+  contactType:
+    type: string
+    enum: [personal, home, work]
+    example: "work"
+  isFavourite:
+    type: boolean
+    example: false
+  photo:
+    type: string
+    format: uri
+    example: "https://res.cloudinary.com/dpf7ocjdl/image/upload/v1755064918/contacts/IMG_20240330_155941.jpg.jpg"
 required:
   - _id
   - name
   - email
   - phoneNumber
+  - contactType

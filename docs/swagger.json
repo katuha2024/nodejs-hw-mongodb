@@ -253,6 +253,11 @@
                       "work"
                     ],
                     "example": "work"
+                  },
+                  "photo": {
+                    "type": "string",
+                    "format": "binary",
+                    "description": "Link to user's photo"
                   }
                 }
               }
@@ -278,7 +283,7 @@
                     },
                     "message": {
                       "type": "string",
-                      "example": "Contact successfully created"
+                      "example": "Successfully created a contact!"
                     },
                     "data": {
                       "$ref": "#/components/schemas/Contact"
@@ -429,7 +434,7 @@
         },
         "responses": {
           "200": {
-            "description": "Contact successfully updated",
+            "description": "Photo updated successfully",
             "content": {
               "application/json": {
                 "schema": {
@@ -446,7 +451,7 @@
                     },
                     "message": {
                       "type": "string",
-                      "example": "Contact successfully updated"
+                      "example": "Photo updated successfully"
                     },
                     "data": {
                       "$ref": "#/components/schemas/Contact"
@@ -457,11 +462,16 @@
             }
           },
           "400": {
-            "description": "Validation error",
+            "description": "No file uploaded",
             "content": {
               "application/json": {
                 "schema": {
                   "type": "object",
+                  "required": [
+                    "status",
+                    "message",
+                    "data"
+                  ],
                   "properties": {
                     "status": {
                       "type": "integer",
@@ -469,7 +479,7 @@
                     },
                     "message": {
                       "type": "string",
-                      "example": "Validation error"
+                      "example": "No file uploaded"
                     },
                     "data": {
                       "type": "object",
@@ -486,6 +496,11 @@
               "application/json": {
                 "schema": {
                   "type": "object",
+                  "required": [
+                    "status",
+                    "message",
+                    "data"
+                  ],
                   "properties": {
                     "status": {
                       "type": "integer",
@@ -636,23 +651,47 @@
         "type": "object",
         "properties": {
           "_id": {
-            "type": "string"
+            "type": "string",
+            "example": "64dcbf9e8f1a2c0012345678"
           },
           "name": {
-            "type": "string"
+            "type": "string",
+            "example": "John Doe"
           },
           "email": {
-            "type": "string"
+            "type": "string",
+            "format": "email",
+            "example": "john@example.com"
           },
           "phoneNumber": {
-            "type": "string"
+            "type": "string",
+            "example": "+123456789"
+          },
+          "contactType": {
+            "type": "string",
+            "enum": [
+              "personal",
+              "home",
+              "work"
+            ],
+            "example": "work"
+          },
+          "isFavourite": {
+            "type": "boolean",
+            "example": false
+          },
+          "photo": {
+            "type": "string",
+            "format": "uri",
+            "example": "https://res.cloudinary.com/dpf7ocjdl/image/upload/v1755064918/contacts/IMG_20240330_155941.jpg.jpg"
           }
         },
         "required": [
           "_id",
           "name",
           "email",
-          "phoneNumber"
+          "phoneNumber",
+          "contactType"
         ]
       }
     }

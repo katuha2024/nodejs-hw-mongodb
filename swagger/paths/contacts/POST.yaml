@@ -39,6 +39,10 @@ requestBody:
             type: string
             enum: [personal, home, work]
             example: "work"
+          photo:
+            type: string
+            format: binary
+            description: "Link to user's photo"
 responses:
   "201":
     description: Contact successfully created
@@ -46,29 +50,24 @@ responses:
       application/json:
         schema:
           type: object
-          required:
-            - status
-            - message
-            - data
+          required: [status, message, data]
           properties:
             status:
               type: integer
               example: 201
             message:
               type: string
-              example: Contact successfully created
+              example: Successfully created a contact!
             data:
               $ref: '../../components/schemas/Contact.yaml'
+
   "400":
     description: Validation error
     content:
       application/json:
         schema:
           type: object
-          required:
-            - status
-            - message
-            - data
+          required: [status, message, data]
           properties:
             status:
               type: integer
