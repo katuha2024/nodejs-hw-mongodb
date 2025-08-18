@@ -1,0 +1,10 @@
+{"web":
+{"project_id":"contacts-app-469108",
+"client_id":"91017784767-5thjmmqrj35u8fnm4ejctrv9st3vb0eh.apps.googleusercontent.com",
+"auth_uri":"https://accounts.google.com/o/oauth2/auth",
+"token_uri":"https://oauth2.googleapis.com/token",
+"auth_provider_x509_cert_url":"https://www.googleapis.com/oauth2/v1/certs",
+"client_secret":"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","redirect_uris":
+["https://nodejs-hw-mongodb-13-f9h9.onrender.com","http://localhost:3000"]
+}
+}
